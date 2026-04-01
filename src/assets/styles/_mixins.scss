@@ -1,0 +1,49 @@
+@use "variables.scss";
+
+$xxxl: 1300px;
+$xxl: 1200px;
+$xl: 944px;
+$l: 708px;
+$m: 410px;
+$s: 345px;
+
+@mixin container {
+  width: $xxxl;
+  margin: 0 auto;
+
+  @media screen and (max-width: $xxxl) {
+    width: $xxl;
+  }
+  @media screen and (max-width: $xxl) {
+    width: $xl;
+  }
+  @media screen and (max-width: $xl) {
+    width: $l;
+  }
+  @media screen and (max-width: $l) {
+    width: $m;
+  }
+  @media screen and (max-width: $m) {
+    width: $s;
+  }
+  @media screen and (max-width: $s) {
+    width: 100%;
+    padding: 0 20px 0 20px;
+  }
+}
+
+@mixin text($font-size: 16px) {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: $font-size;
+}
+
+@mixin title($font-size: 22px) {
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-size: $font-size;
+}
