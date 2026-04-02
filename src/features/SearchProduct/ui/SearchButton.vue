@@ -11,6 +11,7 @@ import SearchIcon from '@/assets/images/search-icon.svg'
 
 <style scoped lang="scss">
 .search-button {
+  cursor: pointer;
   outline: none;
   border: none;
   height: 100%;
@@ -23,6 +24,7 @@ import SearchIcon from '@/assets/images/search-icon.svg'
 
   background-color: variables.$color-accent;
   border-radius: 7px;
+  transition: all 0.2s;
 
   .icon {
     color: #fff;
@@ -32,5 +34,9 @@ import SearchIcon from '@/assets/images/search-icon.svg'
     @include mixins.text(18px);
     color: #fff;
   }
+}
+
+.search-button:hover {
+  background-color: variables.$color-accent-hover;
 }
 </style>
