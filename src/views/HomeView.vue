@@ -1,11 +1,11 @@
 <template>
   <section class="start">
-    <products-section />
+    <products-list />
   </section>
 </template>
 
 <script setup lang="ts">
-import ProductsSection from '@/widgets/ProductsSection/ProductsSection.vue'
+import ProductsList from '@/widgets/products-list/products-list.vue'
 </script>
 
 <style scoped lang="scss">

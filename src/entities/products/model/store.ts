@@ -12,7 +12,7 @@ export const useProductsStore = defineStore('products', () => {
       products.value = response.data
     } catch (error) {
       console.error(error)
-      throw new Error('Неожиданная ошибка, попробуйте позже')
+      throw error
     }
   }
 

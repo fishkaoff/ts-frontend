@@ -11,7 +11,10 @@
 
         <div class="bottom">
           <p class="price">Цена: {{ product.price / 100 }} ₽</p>
-          <app-button class="add-btn">Добавить в корзину</app-button>
+          <app-button v-if="!inCart" class="add-btn" @click="addToCart"
+            >Добавить в корзину</app-button
+          >
+          <button v-else @click="removeFromCart" class="bordered-btn">Убрать из корзины</button>
         </div>
       </div>
     </div>
@@ -20,11 +23,22 @@
 
 <script setup lang="ts">
 import type { Product } from '@/entities/products/model/types'
-import AppButton from '../AppButton/AppButton.vue'
+import AppButton from '@/shared/ui/AppButton/AppButton.vue'
 
-defineProps<{
+const props = defineProps<{
   product: Product
+  inCart: boolean
 }>()
+
+const emit = defineEmits(['add-to-cart', 'remove-from-cart'])
+
+const addToCart = () => {
+  emit('add-to-cart', props.product)
+}
+
+const removeFromCart = () => {
+  emit('remove-from-cart', props.product)
+}
 </script>
 
 <style scoped lang="scss">
@@ -66,6 +80,28 @@ defineProps<{
 
           font-size: 22px;
           font-weight: 600;
+        }
+
+        .bordered-btn {
+          cursor: pointer;
+          outline: none;
+          border: none;
+          height: 100%;
+
+          padding: 20px;
+
+          background-color: #fff;
+          border-radius: 7px;
+          border: 1px solid variables.$color-accent;
+
+          @include mixins.text(18px);
+          color: variables.$color-accent;
+          transition: all 0.2s;
+        }
+
+        .bordered-btn:hover {
+          background-color: variables.$color-accent;
+          color: #fff;
         }
       }
     }

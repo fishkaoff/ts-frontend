@@ -15,10 +15,16 @@
 
       <div class="controls">
         <div class="cart">
-          <img :src="CartIcon" alt="Корзина" title="Корзина" class="icon" />
+          <img
+            :src="CartIcon"
+            alt="Корзина"
+            title="Корзина"
+            class="icon"
+            @click="$router.push({ name: 'CartView' })"
+          />
         </div>
-        <div class="profile">
-          <img :src="ProfileIcon" alt="Корзина" title="Корзина" class="icon" />
+        <div class="profile" @click="$router.push({ name: 'ProfileView' })">
+          <img :src="ProfileIcon" alt="Профиль" title="Профиль" class="icon" />
         </div>
       </div>
     </div>
