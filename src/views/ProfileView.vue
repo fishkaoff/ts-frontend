@@ -1,14 +1,16 @@
 <template>
-  <div class="profile">
-    <h1>Профиль</h1>
-    <h2>Email: {{ authStore.user?.email }}</h2>
-  </div>
+  <div class="profile"></div>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/entities/auth/model/store'
+import { onMounted } from 'vue'
 
 const authStore = useAuthStore()
+
+onMounted(async () => {
+  await authStore.loadUserInfo()
+})
 </script>
 
 <style scoped lang="scss">

@@ -13,18 +13,7 @@
       />
     </div>
 
-    <div class="checkout">
-      <h1>Итого</h1>
-
-      <div v-for="item in cartStore.products" :key="item.product.id">
-        {{ item.product.name }} × {{ item.quantity }}
-        {{ (item.product.price * item.quantity) / 100 }} ₽
-      </div>
-
-      <hr />
-
-      <h2>Сумма: {{ cartStore.totalSum }} ₽</h2>
-    </div>
+    <checkout class="checkout" />
   </div>
 </template>
 
@@ -33,6 +22,7 @@ import { useCartStore } from '@/entities/cart/model/store'
 import CartItemCard from './cart-item-card.vue'
 import { onMounted, ref } from 'vue'
 import type { CartItem } from '@/entities/cart/model/types'
+import checkout from './checkout.vue'
 
 const cartStore = useCartStore()
 const decreasingId = ref('')
@@ -91,6 +81,7 @@ const decrease = async (item: CartItem) => {
   .checkout {
     flex: 1;
     max-width: 500px;
+    min-width: 460px;
   }
 }
 </style>

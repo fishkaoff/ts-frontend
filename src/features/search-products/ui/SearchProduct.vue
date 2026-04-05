@@ -5,7 +5,7 @@
         <div class="content">
           <h1 class="title">Поиск запчасти по названию</h1>
           <div class="search">
-            <search-input placeholder="104538" v-model="partName" class="search-field" />
+            <search-input placeholder="Подшипник" v-model="partName" class="search-field" />
             <search-button class="search-button" />
           </div>
         </div>
