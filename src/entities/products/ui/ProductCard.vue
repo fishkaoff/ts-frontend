@@ -1,20 +1,26 @@
 <template>
   <div class="product-card">
     <div class="content">
-      <p class="part-number">{{ product.part_number }}</p>
-
       <div class="part-info">
         <h2 class="name">{{ product.name }}</h2>
+        <p class="info-item">Артикул: {{ product.part_number }}</p>
         <p class="info-item">Остаток: {{ product.balance }}</p>
         <p class="info-item">Производитель: {{ product.manufacturer }}</p>
         <p class="info-item">Ед. Измерения: {{ product.unit }}</p>
 
         <div class="bottom">
           <p class="price">Цена: {{ product.price / 100 }} ₽</p>
-          <app-button v-if="!inCart" class="add-btn" @click="addToCart"
-            >Добавить в корзину</app-button
-          >
-          <button v-else @click="removeFromCart" class="bordered-btn">Убрать из корзины</button>
+
+          <div class="btns" v-if="!isLoading">
+            <app-button v-if="!inCart" class="btn" @click="addToCart"
+              >Добавить в корзину</app-button
+            >
+            <button v-else @click="removeFromCart" class="bordered-btn btn">
+              Убрать из корзины
+            </button>
+          </div>
+
+          <base-loader v-else></base-loader>
         </div>
       </div>
     </div>
@@ -24,10 +30,12 @@
 <script setup lang="ts">
 import type { Product } from '@/entities/products/model/types'
 import AppButton from '@/shared/ui/AppButton/AppButton.vue'
+import BaseLoader from '@/shared/ui/BaseLoader/BaseLoader.vue'
 
 const props = defineProps<{
   product: Product
   inCart: boolean
+  isLoading: boolean
 }>()
 
 const emit = defineEmits(['add-to-cart', 'remove-from-cart'])
@@ -74,12 +82,23 @@ const removeFromCart = () => {
         justify-content: space-between;
         align-items: center;
 
+        @media screen and (max-width: 710px) {
+          display: block;
+          margin-top: 25px;
+        }
+
         .price {
           @include mixins.text;
           margin-top: 15px;
 
           font-size: 22px;
           font-weight: 600;
+        }
+
+        .btn {
+          @media screen and (max-width: 710px) {
+            margin-top: 25px;
+          }
         }
 
         .bordered-btn {

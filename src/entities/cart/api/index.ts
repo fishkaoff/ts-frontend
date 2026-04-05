@@ -5,6 +5,9 @@ export const fetchUsersCart = async () => {
   return $authHost.get('/carts')
 }
 
-export const updateProductQuantityRequest = async (dto: CartItem) => {
+export const updateProductQuantityRequest = async (dto: {
+  product_id: string
+  quantity: number
+}) => {
   return $authHost.put('/carts/items', dto)
 }

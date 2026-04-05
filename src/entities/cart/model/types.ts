@@ -1,5 +1,7 @@
+import type { Product } from '@/entities/products/model/types'
+
 export interface CartItem {
-  product_id: string
+  product: Product
   quantity: number
 }
 

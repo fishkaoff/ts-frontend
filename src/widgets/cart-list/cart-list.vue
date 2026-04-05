@@ -1,20 +1,96 @@
 <template>
   <div class="cart-list">
-    <div class="cart-item" v-for="cartItem in cartStore.cart?.products" :key="cartItem.product_id">
-      <h1>id: {{ cartItem.product_id }}</h1>
-      <h1>quantity: {{ cartItem.quantity }}</h1>
+    <div class="cart-items">
+      <cart-item-card
+        v-for="item in cartStore.products"
+        :key="item.product.id"
+        :item="item"
+        class="item"
+        @increase="increase(item)"
+        @decrease="decrease(item)"
+        :increasing-id="increasingId"
+        :decreasing-id="decreasingId"
+      />
+    </div>
+
+    <div class="checkout">
+      <h1>Итого</h1>
+
+      <div v-for="item in cartStore.products" :key="item.product.id">
+        {{ item.product.name }} × {{ item.quantity }}
+        {{ (item.product.price * item.quantity) / 100 }} ₽
+      </div>
+
+      <hr />
+
+      <h2>Сумма: {{ cartStore.totalSum }} ₽</h2>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCartStore } from '@/entities/cart/model/store'
+import CartItemCard from './cart-item-card.vue'
+import { onMounted, ref } from 'vue'
+import type { CartItem } from '@/entities/cart/model/types'
 
 const cartStore = useCartStore()
+const decreasingId = ref('')
+const increasingId = ref('')
+
+onMounted(() => {
+  cartStore.fetchCart()
+})
+
+const increase = async (item: CartItem) => {
+  increasingId.value = item.product.id
+
+  try {
+    await cartStore.updateProductQuantity({
+      product_id: item.product.id,
+      quantity: item.quantity + 1,
+    })
+  } finally {
+    increasingId.value = ''
+  }
+}
+
+const decrease = async (item: CartItem) => {
+  decreasingId.value = item.product.id
+
+  try {
+    if (item.quantity - 1 <= 0) return
+
+    await cartStore.updateProductQuantity({
+      product_id: item.product.id,
+      quantity: item.quantity - 1,
+    })
+  } finally {
+    decreasingId.value = ''
+  }
+}
 </script>
 
 <style scoped lang="scss">
 .cart-list {
   @include mixins.container;
+
+  display: flex;
+  gap: 40px;
+  justify-content: space-between;
+
+  .cart-items {
+    flex: 1;
+    min-width: 600px;
+
+    .item:not(:first-of-type) {
+      margin-top: 25px;
+    }
+  }
+
+  .checkout {
+    flex: 1;
+    max-width: 500px;
+  }
 }
 </style>

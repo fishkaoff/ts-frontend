@@ -1,28 +1,57 @@
-import { ref } from 'vue'
+// entities/cart/model/store.ts
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 import type { Cart, CartItem } from './types'
 import { fetchUsersCart, updateProductQuantityRequest } from '../api'
+import { AppError } from '@/shared/app-error/app-error'
+import router from '@/router'
 
 export const useCartStore = defineStore('cart', () => {
-  const cart = ref<Cart>()
+  const cart = ref<Cart | null>(null)
+  const isLoading = ref(false)
+
+  const products = computed(() => cart.value?.products || [])
+
+  const totalSum = computed(() => {
+    return products.value.reduce((sum, item) => {
+      return sum + (item.product.price * item.quantity) / 100
+    }, 0)
+  })
+
+  const isInCart = (productId: string) => {
+    return computed(() => products.value.some((item) => item.product.id === productId))
+  }
 
   async function fetchCart() {
+    isLoading.value = true
     try {
       const res = await fetchUsersCart()
       cart.value = res.data
-    } catch (error) {
-      throw error
+    } finally {
+      isLoading.value = false
     }
   }
 
-  async function updateProductQuantity(dto: CartItem) {
+  async function updateProductQuantity(dto: { product_id: string; quantity: number }) {
     try {
       await updateProductQuantityRequest(dto)
       await fetchCart()
     } catch (error) {
-      throw error
+      if (error instanceof AppError) {
+        if (error.code === 401) {
+          router.push({ name: 'LoginView' })
+        }
+      }
     }
   }
 
-  return { cart, fetchCart, updateProductQuantity }
+  return {
+    cart,
+    products,
+    totalSum,
+    isLoading,
+    fetchCart,
+    updateProductQuantity,
+    isInCart,
+  }
 })

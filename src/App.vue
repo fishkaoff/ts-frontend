@@ -7,15 +7,12 @@ import { useCartStore } from './entities/cart/model/store'
 
 onBeforeMount(async () => {
   const productsStore = useProductsStore()
-  const cartStore = useCartStore()
 
   try {
     productsStore.loadProducts({
       limit: 200,
       offset: 0,
     })
-
-    await cartStore.fetchCart()
   } catch (error) {}
 })
 </script>

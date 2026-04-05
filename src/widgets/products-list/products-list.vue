@@ -1,50 +1,56 @@
 <template>
   <div class="products-list">
-    <search-product></search-product>
+    <search-product />
 
     <product-card
-      class="product-item"
       v-for="product in productsStore.products"
+      :key="product.id"
+      class="product-item"
       :product="product"
-      :in-cart="isInCart(product)"
-      @add-to-cart="addToCart(product)"
+      :in-cart="cartStore.isInCart(product.id).value"
+      :is-loading="loadingId === product.id"
+      @add-to-cart="onAddToCart"
+      @remove-from-cart="onRemoveFromCart"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCartStore } from '@/entities/cart/model/store'
-import type { CartItem } from '@/entities/cart/model/types'
 import { useProductsStore } from '@/entities/products/model/store'
-import type { Product } from '@/entities/products/model/types'
 import ProductCard from '@/entities/products/ui/ProductCard.vue'
-import { useAddToCart } from '@/features/add-to-cart/model/useAddToCart'
 import SearchProduct from '@/features/search-products/ui/SearchProduct.vue'
-import router from '@/router'
-import { AppError } from '@/shared/app-error/app-error'
+import type { Product } from '@/entities/products/model/types'
+import { ref } from 'vue'
 
 const productsStore = useProductsStore()
 const cartStore = useCartStore()
-const { add, isLoading, cartError } = useAddToCart()
 
-const isInCart = (product: Product) => {
-  if (!cartStore.cart) return false
+const loadingId = ref<string>('')
 
-  return cartStore.cart.products.some((item: CartItem) => item.product_id === product.id)
-}
+const onAddToCart = async (product: Product) => {
+  loadingId.value = product.id
 
-const addToCart = async (product: Product) => {
   try {
-    await add({
+    await cartStore.updateProductQuantity({
       product_id: product.id,
       quantity: 1,
-    } as CartItem)
-  } catch (error) {
-    if (error instanceof AppError) {
-      if (error.code == 401) {
-        router.push({ name: 'LoginView' })
-      }
-    }
+    })
+  } finally {
+    loadingId.value = ''
+  }
+}
+
+const onRemoveFromCart = async (product: Product) => {
+  loadingId.value = product.id
+
+  try {
+    await cartStore.updateProductQuantity({
+      product_id: product.id,
+      quantity: 0,
+    })
+  } finally {
+    loadingId.value = ''
   }
 }
 </script>

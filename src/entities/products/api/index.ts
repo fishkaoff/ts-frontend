@@ -6,3 +6,7 @@ export const fetchProducts = async (filter: ProductsFilter) => {
     params: filter,
   })
 }
+
+export const fetchProductById = async (id: string) => {
+  return $host.get(`/products/${id}`)
+}
