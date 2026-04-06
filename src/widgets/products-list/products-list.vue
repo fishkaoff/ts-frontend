@@ -1,11 +1,9 @@
 <template>
   <div class="products-list">
-    <search-product />
-
     <product-card
-      v-for="product in productsStore.products"
-      :key="product.id"
+      v-for="product in products"
       class="product-item"
+      :key="product.id"
       :product="product"
       :in-cart="cartStore.isInCart(product.id).value"
       :is-loading="loadingId === product.id"
@@ -17,13 +15,14 @@
 
 <script setup lang="ts">
 import { useCartStore } from '@/entities/cart/model/store'
-import { useProductsStore } from '@/entities/products/model/store'
 import ProductCard from '@/entities/products/ui/ProductCard.vue'
-import SearchProduct from '@/features/search-products/ui/SearchProduct.vue'
 import type { Product } from '@/entities/products/model/types'
 import { ref } from 'vue'
 
-const productsStore = useProductsStore()
+defineProps<{
+  products: Product[]
+}>()
+
 const cartStore = useCartStore()
 
 const loadingId = ref<string>('')

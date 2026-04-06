@@ -6,7 +6,7 @@
           <h1 class="title">Поиск запчасти по названию</h1>
           <div class="search">
             <search-input placeholder="Подшипник" v-model="partName" class="search-field" />
-            <search-button class="search-button" />
+            <search-button />
           </div>
         </div>
       </div>
@@ -16,7 +16,7 @@
           <h1 class="title">Поиск запчасти по артикулу</h1>
           <div class="search">
             <search-input placeholder="104538" v-model="partNumber" class="search-field" />
-            <search-button class="search-button" />
+            <search-button />
           </div>
         </div>
       </div>
@@ -31,6 +31,9 @@ import SearchButton from './SearchButton.vue'
 
 const partName = ref('')
 const partNumber = ref('')
+const products = ref('')
+
+const emit = defineEmits(['found-products'])
 </script>
 
 <style scoped lang="scss">
