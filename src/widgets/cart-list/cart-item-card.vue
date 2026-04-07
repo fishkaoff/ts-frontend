@@ -64,6 +64,10 @@ defineEmits<{
   background-color: #fff;
   border-radius: 15px;
 
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+
   .image {
     flex: 1;
     min-width: 100px;
@@ -95,6 +99,15 @@ defineEmits<{
     justify-content: space-between;
     align-items: end;
 
+    @media screen and (max-width: 600px) {
+      flex-direction: row;
+      margin-top: 30px;
+    }
+
+    @media screen and (max-width: 340px) {
+      display: block;
+    }
+
     .count {
       display: flex;
       align-items: center;
@@ -110,6 +123,14 @@ defineEmits<{
       font-weight: 800;
       color: #ff0000;
       letter-spacing: 2px;
+
+      @media screen and (max-width: 600px) {
+        font-size: 22px;
+      }
+
+      @media screen and (max-width: 340px) {
+        margin-top: 20px;
+      }
     }
   }
 }

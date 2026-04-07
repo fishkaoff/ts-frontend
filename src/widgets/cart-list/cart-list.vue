@@ -15,6 +15,14 @@
 
     <checkout class="checkout" />
   </div>
+  <div class="mobile-checkout">
+    <div class="info">
+      <p class="total">{{ cartStore.products.length }} товаров</p>
+      <p class="price">{{ cartStore.totalSum / 100 }} ₽</p>
+    </div>
+
+    <app-button class="button">Перейти к оформлению</app-button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,6 +31,7 @@ import CartItemCard from './cart-item-card.vue'
 import { onMounted, ref } from 'vue'
 import type { CartItem } from '@/entities/cart/model/types'
 import checkout from './checkout.vue'
+import AppButton from '@/shared/ui/AppButton/AppButton.vue'
 
 const cartStore = useCartStore()
 const decreasingId = ref('')
@@ -73,6 +82,9 @@ const decrease = async (item: CartItem) => {
     flex: 1;
     min-width: 600px;
 
+    @media screen and (max-width: 600px) {
+      min-width: 100%;
+    }
     .item:not(:first-of-type) {
       margin-top: 25px;
     }
@@ -82,6 +94,41 @@ const decrease = async (item: CartItem) => {
     flex: 1;
     max-width: 500px;
     min-width: 460px;
+
+    @media screen and (max-width: 950px) {
+      display: none;
+    }
+  }
+}
+
+.mobile-checkout {
+  display: none;
+  position: fixed;
+  bottom: 0;
+
+  width: 100vw;
+  background-color: #fff;
+
+  padding: 15px;
+
+  @media screen and (max-width: 950px) {
+    display: block;
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+
+    @include mixins.text(16px);
+
+    .total {
+      color: variables.$color-fg;
+    }
+  }
+
+  .button {
+    width: 100%;
+    margin-top: 15px;
   }
 }
 </style>
