@@ -38,7 +38,7 @@ $authHost.interceptors.response.use(
 
       const data = error.response.data
 
-      appError = new AppError(status, data?.error || 'API_ERROR', data?.message || 'Unknown error')
+      appError = new AppError(status, data?.error || 'API_ERROR', data?.details || 'Unknown error')
 
       if (status === 401) {
         localStorage.removeItem('ts-access-token')
@@ -51,6 +51,30 @@ $authHost.interceptors.response.use(
         appError.error = 'unauthorized'
         appError.message = 'Пользователь не авторизован'
       }
+    } else if (error.request) {
+      // Нет ответа от сервера (network error)
+      appError = new AppError(0, 'NETWORK_ERROR', 'Server is not responding')
+    } else {
+      // Ошибка при настройке запроса
+      appError = new AppError(0, 'REQUEST_ERROR', error.message)
+    }
+
+    return Promise.reject(appError)
+  },
+)
+
+$host.interceptors.response.use(
+  (res: AxiosResponse) => res,
+  (error) => {
+    let appError: AppError
+
+    // Если есть ответ от сервера
+    if (error.response) {
+      const status = error.response.status
+
+      const data = error.response.data
+
+      appError = new AppError(status, data?.error || 'API_ERROR', data?.details || 'Unknown error')
     } else if (error.request) {
       // Нет ответа от сервера (network error)
       appError = new AppError(0, 'NETWORK_ERROR', 'Server is not responding')

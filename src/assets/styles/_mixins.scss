@@ -1,27 +1,8 @@
 @use 'variables.scss';
 
-$xxxl: 1300px;
-$xxl: 1200px;
-$xl: 944px;
-$l: 708px;
-
 @mixin container {
-  width: $xxxl;
+  width: 85%;
   margin: 0 auto;
-
-  @media screen and (max-width: $xxxl) {
-    width: $xxl;
-  }
-  @media screen and (max-width: $xxl) {
-    width: $xl;
-  }
-  @media screen and (max-width: $xl) {
-    width: $l;
-  }
-  @media screen and (max-width: $l) {
-    width: 85%;
-    margin: 0 auto;
-  }
 }
 
 @mixin text($font-size: 16px) {

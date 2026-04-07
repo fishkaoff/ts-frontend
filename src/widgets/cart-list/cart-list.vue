@@ -16,12 +16,14 @@
     <checkout class="checkout" />
   </div>
   <div class="mobile-checkout">
-    <div class="info">
-      <p class="total">{{ cartStore.products.length }} товаров</p>
-      <p class="price">{{ cartStore.totalSum / 100 }} ₽</p>
-    </div>
+    <div class="container">
+      <div class="info">
+        <p class="total">{{ cartStore.products.length }} товаров</p>
+        <p class="price">{{ cartStore.totalSum / 100 }} ₽</p>
+      </div>
 
-    <app-button class="button">Перейти к оформлению</app-button>
+      <app-button class="button">Перейти к оформлению</app-button>
+    </div>
   </div>
 </template>
 
@@ -81,6 +83,7 @@ const decrease = async (item: CartItem) => {
   .cart-items {
     flex: 1;
     min-width: 600px;
+    margin-top: 20px;
 
     @media screen and (max-width: 600px) {
       min-width: 100%;
@@ -93,9 +96,10 @@ const decrease = async (item: CartItem) => {
   .checkout {
     flex: 1;
     max-width: 500px;
-    min-width: 460px;
+    min-width: 400px;
+    margin-top: 20px;
 
-    @media screen and (max-width: 950px) {
+    @media screen and (max-width: 1300px) {
       display: none;
     }
   }
@@ -103,32 +107,36 @@ const decrease = async (item: CartItem) => {
 
 .mobile-checkout {
   display: none;
+
   position: fixed;
   bottom: 0;
 
-  width: 100vw;
+  width: 100%;
   background-color: #fff;
 
-  padding: 15px;
-
-  @media screen and (max-width: 950px) {
+  @media screen and (max-width: 1300px) {
     display: block;
   }
 
-  .info {
-    display: flex;
-    justify-content: space-between;
+  .container {
+    @include mixins.container;
+    padding: 15px;
 
-    @include mixins.text(16px);
+    .info {
+      display: flex;
+      justify-content: space-between;
 
-    .total {
-      color: variables.$color-fg;
+      @include mixins.text(16px);
+
+      .total {
+        color: variables.$color-fg;
+      }
     }
-  }
 
-  .button {
-    width: 100%;
-    margin-top: 15px;
+    .button {
+      width: 100%;
+      margin-top: 15px;
+    }
   }
 }
 </style>
