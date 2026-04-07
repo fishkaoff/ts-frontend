@@ -65,6 +65,10 @@ const { email, password, submitError, emailError, passwordError, isFormValid, lo
 
     background-color: #fff;
 
+    @media screen and (max-width: 880px) {
+      width: 100%;
+    }
+
     .title {
       @include mixins.title(26px);
       text-align: center;
@@ -93,6 +97,8 @@ const { email, password, submitError, emailError, passwordError, isFormValid, lo
     .switch {
       @include mixins.text(16px);
       margin-top: 20px;
+
+      line-height: 1.5em;
 
       .redirect {
         color: variables.$color-accent;
@@ -137,6 +143,10 @@ const { email, password, submitError, emailError, passwordError, isFormValid, lo
 
       margin-top: 25px;
       line-height: 1.6em;
+
+      @media screen and (max-width: 400px) {
+        font-size: 14px;
+      }
 
       .link {
         color: variables.$color-accent;

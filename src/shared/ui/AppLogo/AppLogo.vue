@@ -23,6 +23,10 @@
 
     background-color: variables.$color-accent;
     color: #fff;
+
+    @media screen and (max-width: 320px) {
+      display: none;
+    }
   }
 
   .logo-text {

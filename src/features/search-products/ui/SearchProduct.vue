@@ -23,11 +23,17 @@
       </div>
 
       <div class="pagination">
-        <button :disabled="page === 1" @click="prevPage">Назад</button>
+        <button :disabled="page === 1" @click="prevPage" class="pagination-button">
+          <p class="text">Вперед</p>
+          <img :src="ArrowIcon" alt="Назад" class="icon" />
+        </button>
 
         <span>Страница {{ page }}</span>
 
-        <button :disabled="isLastPage" @click="nextPage">Вперед</button>
+        <button :disabled="isLastPage" @click="nextPage" class="pagination-button">
+          <p class="text">Вперед</p>
+          <img :src="ArrowIcon" alt="Вперед" class="icon rotate" />
+        </button>
       </div>
     </div>
   </div>
@@ -41,6 +47,7 @@ import { useCartStore } from '@/entities/cart/model/store'
 import { useProductsStore } from '@/entities/products/model/store'
 import type { Product } from '@/entities/products/model/types'
 import { debounce } from '@/shared/helpers'
+import ArrowIcon from '@/assets/images/arrow-icon.svg'
 
 const cartStore = useCartStore()
 const productsStore = useProductsStore()
@@ -195,9 +202,30 @@ const onRemoveFromCart = async (product: Product) => {
         color: #fff;
         transition: all 0.2s;
 
+        .icon {
+          display: none;
+
+          &.rotate {
+            transform: rotate(180deg);
+          }
+        }
+
         &:disabled {
           background-color: #7c7c7c;
           cursor: default;
+        }
+
+        @media screen and (max-width: 400px) {
+          padding: 10px;
+          font-size: 16px;
+
+          .text {
+            display: none;
+          }
+
+          .icon {
+            display: block;
+          }
         }
       }
 
