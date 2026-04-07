@@ -10,3 +10,13 @@ export const fetchProducts = async (filter: ProductsFilter) => {
 export const fetchProductById = async (id: string) => {
   return $host.get(`/products/${id}`)
 }
+
+export const fetchProductsByQuery = async (query: string, page: number, limit: number) => {
+  return $host.get('/products/search', {
+    params: {
+      query: query,
+      limit: limit,
+      page: page,
+    },
+  })
+}
