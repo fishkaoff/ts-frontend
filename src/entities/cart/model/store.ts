@@ -1,7 +1,7 @@
 // entities/cart/model/store.ts
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { Cart, CartItem } from './types'
+import type { Cart } from './types'
 import { fetchUsersCart, updateProductQuantityRequest } from '../api'
 import { AppError } from '@/shared/app-error/app-error'
 import router from '@/router'
